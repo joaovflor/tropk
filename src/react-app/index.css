@@ -1,0 +1,86 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
+}
+
+/* Custom scrollbar for webkit browsers */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #d4a574;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #b8935f;
+}
+
+/* Smooth scroll behavior */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Global textured background overlay using public/Fundogranulado-01.png */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: url('/Fundogranulado-01.png');
+  background-repeat: repeat;
+  background-size: auto;
+  opacity: 0.08;
+  pointer-events: none;
+  z-index: 999;
+}
+
+/* Ensure the main app content stacks properly */
+.app-content-root {
+  position: relative;
+  z-index: 1;
+}
+
+/* Hero section background */
+.hero-section {
+  background-image: url('/fundohome-01.png');
+  background-size: cover;
+  background-position: center;
+}
+@font-face {
+  font-family: 'Aileron';
+  src: url('/src/font/Aileron-Heavy.otf') format('opentype');
+  font-weight: 900;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Aileron';
+  src: url('/src/font/Aileron-Bold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Aileron';
+  src: url('/src/font/Aileron-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Aileron';
+  src: url('/src/font/Aileron-Light.otf') format('opentype');
+  font-weight: 300;
+  font-style: normal;
+}
+
