@@ -1,4 +1,4 @@
-import { Heart, Instagram, MessageCircle, MapPin, Package } from 'lucide-react';
+import { Heart, Instagram, MessageCircle, Package } from 'lucide-react';
 
 export default function Footer() {
   return (

@@ -204,7 +204,7 @@ const Galeria = memo(() => {
   }
 ];
 
-  const { ref, inView } = useInView({
+  const { ref } = useInView({
     threshold: 0.1,
     triggerOnce: true,
   });
