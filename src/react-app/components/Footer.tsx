@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import { memo, useMemo } from 'react';
 import { Heart, Instagram, MessageCircle, Package } from 'lucide-react';
 
@@ -17,9 +16,6 @@ function Footer() {
   // Reduza shadow para shadow-xs
   // Remova sticky/top-0 (footer geralmente fica fixo no bottom ou normal; sticky causa repaints desnecessários ao rolar)
   // Use React.memo para evitar re-renderizações desnecessárias
-=======
-import { Heart, Instagram, MessageCircle, Package } from 'lucide-react';
->>>>>>> eb8fa59ca5eb73c1eb6ce37dd506e276c2aa999c
 
   return (
     <footer
