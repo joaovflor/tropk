@@ -2,6 +2,7 @@ import { memo, useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { Link } from 'react-router-dom'; // <-- CORREÇÃO!
 import Header from '@/react-app/components/Header'; // ajuste caminho conforme seu projeto
+import Footer from '@/react-app/components/Footer';
 
 
 
@@ -754,6 +755,7 @@ const Galeria = memo(() => {
       `}</style>
 
     </section>
+    <Footer />
     </>
   );
 });
