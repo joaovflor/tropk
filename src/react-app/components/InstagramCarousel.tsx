@@ -1,5 +1,5 @@
-import { useEffect, memo } from 'react';
-import { Instagram } from 'lucide-react';
+import { useEffect, memo, useState } from 'react';
+import { Instagram, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useInView } from 'react-intersection-observer';
 
 declare global {
@@ -9,24 +9,27 @@ declare global {
 }
 
 const InstagramCarousel = memo(() => {
-  const { ref, inView } = useInView({
+  const { inView } = useInView({
     threshold: 0.1,
     triggerOnce: true,
   });
 
+  const [posts, setPosts] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+
   useEffect(() => {
     if (!inView) return;
 
-    // Carrega o script do Elfsight
     const script = document.createElement('script');
     script.src = 'https://apps.elfsight.com/p/platform.js';
     script.defer = true;
     document.body.appendChild(script);
 
     return () => {
-      // Limpa o script quando o componente é desmontado
       document.body.removeChild(script);
-      // Limpa também a div do widget se existir
       const widgetContainer = document.querySelector('.elfsight-app-instagram-feed');
       if (widgetContainer) {
         widgetContainer.remove();

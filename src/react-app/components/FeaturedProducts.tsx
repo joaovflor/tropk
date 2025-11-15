@@ -149,7 +149,7 @@ const FeaturedProducts = memo(() => {
     // ...adicione mais produtos se quiser!
   ];
 
-  const { ref, inView } = useInView({
+  const { ref } = useInView({
     threshold: 0.1,
     triggerOnce: true,
   });
