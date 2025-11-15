@@ -275,7 +275,7 @@ const Galeria = memo(() => {
           <>
             <div className="polaroid-pair">
               {[products[current * 2], products[current * 2 + 1]].map(
-                (product, i) =>
+                (product) =>
                   product && (
                     <div className="product-card" style={{ width: '50%', margin: 0 }} key={product.id}>
                       <div className="dual-polaroid-wrapper">
