@@ -93,11 +93,11 @@ export default function Testimonials() {
           width: 100%;
           height: 100%;
           backface-visibility: hidden; !important;
-          -webkit-backface-visibility: hidden; !important;
-        }
-
+          }
+          
         .flip-card-back {
           transform: rotateY(180deg);
+          backface-visibility: hidden; !important;
         }
 
         .polaroid {
