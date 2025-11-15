@@ -1,36 +1,110 @@
+import { memo, useCallback } from 'react';
 import { Star } from 'lucide-react';
 import { openWhatsApp, whatsappMessages } from '../utils/whatsapp';
 
-export default function Testimonials() {
-  const testimonials = [
-    {
-      id: 1,
-      name: "Ana Carolina",
-      location: "São Paulo, SP",
-      text: "Simplesmente apaixonada pelas peças! A qualidade é incrível e o atendimento é super personalizado. Já comprei várias vezes e sempre fico encantada.",
-      avatar: "https://images.unsplash.com/photo-1494790108755-2616b612b29c?w=400&h=500&fit=crop&crop=face",
-      rating: 5
-    },
-    {
-      id: 2,
-      name: "Julia Taouil",
-      location: "Rio de Janeiro, RJ",
-      text: "Receber uma peça da tropkshop é como ganhar um presente especial. Cada detalhe é pensado com carinho. Super recomendo para quem ama exclusividade!",
-      avatar: "Julia.jpg",
-      rating: 5
-    },
-    {
-      id: 3,
-      name: "Beatriz Costa",
-      location: "Belo Horizonte, MG",
-      text: "O trabalho artesanal é impecável! Uso minhas peças da tropkshop em várias ocasiões e sempre recebo elogios. Vale cada centavo investido.",
-      avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&h=500&fit=crop&crop=face",
-      rating: 5
-    }
-  ];
+const testimonials = [
+  {
+    id: 1,
+    name: "Ana Carolina",
+    location: "São Paulo, SP",
+    text: "Simplesmente apaixonada pelas peças! A qualidade é incrível e o atendimento é super personalizado. Já comprei várias vezes e sempre fico encantada.",
+    avatar: "https://images.unsplash.com/photo-1494790108755-2616b612b29c?w=400&h=500&fit=crop&crop=face",
+    rating: 5
+  },
+  {
+    id: 2,
+    name: "Julia Taouil",
+    location: "Rio de Janeiro, RJ",
+    text: "Receber uma peça da tropkshop é como ganhar um presente especial. Cada detalhe é pensado com carinho. Super recomendo para quem ama exclusividade!",
+    avatar: "Julia.jpg",
+    rating: 5
+  },
+  {
+    id: 3,
+    name: "Beatriz Costa",
+    location: "Belo Horizonte, MG",
+    text: "O trabalho artesanal é impecável! Uso minhas peças da tropkshop em várias ocasiões e sempre recebo elogios. Vale cada centavo investido.",
+    avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&h=500&fit=crop&crop=face",
+    rating: 5
+  }
+];
+
+const flipCardStyles = `
+  .flip-card-container {
+    perspective: 1000px;
+  }
+
+  .flip-card-inner {
+    position: relative;
+    width: 100%;
+    min-height: 380px;
+    transition: transform 0.8s;
+    transform-style: preserve-3d;
+  }
+
+  .flip-card-container:hover .flip-card-inner {
+    transform: rotateY(180deg);
+  }
+
+  .flip-card-front,
+  .flip-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+
+  .flip-card-back {
+    transform: rotateY(180deg);
+  }
+
+  .polaroid {
+    background: white;
+    padding: 15px;
+    padding-bottom: 60px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2), 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    width: 100%;
+    max-width: 320px;
+    margin: 0 auto;
+  }
+
+  .polaroid-image {
+    width: 100%;
+    aspect-ratio: 3/4;
+    object-fit: cover;
+    display: block;
+    background: #f0f0f0;
+  }
+
+  .polaroid-caption {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: #6B4423;
+    text-align: center;
+    margin-top: 15px;
+    letter-spacing: 0.5px;
+  }
+
+  .polaroid-location {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    font-weight: 300;
+    color: #B2825D;
+    text-align: center;
+    margin-top: 5px;
+  }
+`;
+
+function Testimonials() {
+  const handleWhatsAppClick = useCallback(() => {
+    openWhatsApp(whatsappMessages.customOrder);
+  }, []);
 
   return (
-    <section 
+    <section
       style={{
         backgroundImage: 'url(/fundosemflor-01.png)',
         backgroundSize: 'cover',
@@ -54,78 +128,11 @@ export default function Testimonials() {
       }} />
 
       {/* Estilos CSS para o efeito de flip */}
-      <style>{`
-        .flip-card-container {
-          perspective: 1000px;
-        }
-
-        .flip-card-inner {
-          position: relative;
-          width: 100%;
-          min-height: 380px;
-          transition: transform 0.8s;
-          transform-style: preserve-3d;
-        }
-
-        .flip-card-container:hover .flip-card-inner {
-          transform: rotateY(180deg);
-        }
-
-        .flip-card-front,
-        .flip-card-back {
-          position: absolute;
-          width: 100%;
-          height: 100%;
-          backface-visibility: hidden;
-          -webkit-backface-visibility: hidden;
-        }
-
-        .flip-card-back {
-          transform: rotateY(180deg);
-        }
-
-        .polaroid {
-          background: white;
-          padding: 15px;
-          padding-bottom: 60px;
-          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2), 0 4px 8px rgba(0, 0, 0, 0.1);
-          border-radius: 4px;
-          width: 100%;
-          max-width: 320px;
-          margin: 0 auto;
-        }
-
-        .polaroid-image {
-          width: 100%;
-          aspect-ratio: 3/4;
-          object-fit: cover;
-          display: block;
-          background: #f0f0f0;
-        }
-
-        .polaroid-caption {
-          font-family: 'Montserrat', sans-serif;
-          font-size: 18px;
-          font-weight: 600;
-          color: #6B4423;
-          text-align: center;
-          margin-top: 15px;
-          letter-spacing: 0.5px;
-        }
-
-        .polaroid-location {
-          font-family: 'Montserrat', sans-serif;
-          font-size: 14px;
-          font-weight: 300;
-          color: #B2825D;
-          text-align: center;
-          margin-top: 5px;
-        }
-      `}</style>
+      <style>{flipCardStyles}</style>
 
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <h2 
+          <h2
             style={{
               fontFamily: 'Aileron, sans-serif',
               fontWeight: 900,
@@ -140,12 +147,12 @@ export default function Testimonials() {
           >
             O QUE NOSSAS <span style={{ fontFamily: 'Aileron, sans-serif', fontWeight: 200 }}>CLIENTES</span> DIZEM
           </h2>
-          <p 
-            style={{ 
-              fontFamily: 'Montserrat, sans-serif', 
-              fontWeight: 300, 
-              color: '#b88860ff' 
-            }} 
+          <p
+            style={{
+              fontFamily: 'Montserrat, sans-serif',
+              fontWeight: 300,
+              color: '#b88860ff'
+            }}
             className="text-lg leading-relaxed max-w-lg mx-auto"
           >
             Cada <span className="font-semibold">depoimento</span> é uma <span className="font-semibold">história especial</span> que nos motiva a continuar criando <span className="font-semibold">peças únicas</span> com muito <span className="font-semibold">amor</span> e <span className="font-semibold">dedicação</span>.
@@ -154,7 +161,7 @@ export default function Testimonials() {
 
         <div className="grid md:grid-cols-3 gap-8">
           {testimonials.map((testimonial) => (
-            <div 
+            <div
               key={testimonial.id}
               className="flip-card-container"
             >
@@ -177,13 +184,13 @@ export default function Testimonials() {
                   >
                     {/* Stars */}
                     <div className="flex space-x-1 mb-4">
-                      {[...Array(testimonial.rating)].map((_, i) => (
+                      {Array.from({ length: testimonial.rating }).map((_, i) => (
                         <Star key={i} style={{ width: '16px', height: '16px', color: '#B2825D', fill: '#B2825D' }} />
                       ))}
                     </div>
 
                     {/* Testimonial Text */}
-                    <p 
+                    <p
                       style={{
                         fontFamily: 'Montserrat, sans-serif',
                         fontSize: '16px',
@@ -211,7 +218,7 @@ export default function Testimonials() {
                         }}
                       />
                       <div>
-                        <h4 
+                        <h4
                           style={{
                             fontFamily: 'Montserrat, sans-serif',
                             fontSize: '16px',
@@ -222,7 +229,7 @@ export default function Testimonials() {
                         >
                           {testimonial.name}
                         </h4>
-                        <p 
+                        <p
                           style={{
                             fontFamily: 'Montserrat, sans-serif',
                             fontSize: '14px',
@@ -260,24 +267,26 @@ export default function Testimonials() {
 
         {/* Call to Action */}
         <div className="text-center mt-12">
-          <p 
-            style={{ 
-              fontFamily: 'Montserrat, sans-serif', 
-              fontWeight: 300, 
-              color: '#b88860ff' 
-            }} 
+          <p
+            style={{
+              fontFamily: 'Montserrat, sans-serif',
+              fontWeight: 300,
+              color: '#b88860ff'
+            }}
             className="text-lg leading-relaxed max-w-2xl mx-auto mb-6"
           >
-            Quer fazer parte da nossa <span className="font-semibold">galeria</span> de <span className="font-semibold">clientes satisfeitas?</span> 
+            Quer fazer parte da nossa <span className="font-semibold">galeria</span> de <span className="font-semibold">clientes satisfeitas?</span>
           </p>
-          <button 
-            onClick={() => openWhatsApp(whatsappMessages.customOrder)}
+          <button
+            onClick={handleWhatsAppClick}
             className="backdrop-blur-md bg-amber-800/90 hover:bg-amber-900/90 text-white px-8 py-3 rounded-full border border-amber-700/50 shadow-lg transition-all duration-300 font-medium cursor-pointer"
           >
-            Fazer Pedido 
+            Fazer Pedido
           </button>
         </div>
       </div>
     </section>
   );
 }
+
+export default memo(Testimonials);

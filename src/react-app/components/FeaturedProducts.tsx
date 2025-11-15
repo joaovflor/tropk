@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import { memo, useState, useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { Link } from 'react-router-dom';
 
@@ -31,7 +31,7 @@ const DualPolaroidCard = memo(({ product }: DualPolaroidCardProps) => (
       {/* Container das Polaroids Sobrepostas */}
       <div className="polaroids-container">
         {/* Polaroid de Trás */}
-        <div className="polaroid polaroid-back">
+        <div  className="polaroid polaroid-back">
           <div className="image-wrapper">
             <img
               src={product.images[0]}
@@ -40,7 +40,6 @@ const DualPolaroidCard = memo(({ product }: DualPolaroidCardProps) => (
             />
           </div>
         </div>
-
         {/* Polaroid da Frente */}
         <div className="polaroid polaroid-front">
           <div className="image-wrapper">
@@ -52,7 +51,6 @@ const DualPolaroidCard = memo(({ product }: DualPolaroidCardProps) => (
           </div>
         </div>
       </div>
-
       {/* Informações do Produto (ao lado direito) */}
       <div className="product-info-external">
         <div className="product-category">{product.name}</div>
@@ -88,7 +86,6 @@ const DualPolaroidCardMirrored = memo(({ product }: DualPolaroidCardProps) => (
         </div>
         <div className="product-note">{product.description}</div>
       </div>
-
       {/* Container das Polaroids Sobrepostas */}
       <div className="polaroids-container-mirrored">
         {/* Polaroid de Trás */}
@@ -101,7 +98,6 @@ const DualPolaroidCardMirrored = memo(({ product }: DualPolaroidCardProps) => (
             />
           </div>
         </div>
-
         {/* Polaroid da Frente */}
         <div className="polaroid polaroid-front-mirrored">
           <div className="image-wrapper">
@@ -150,12 +146,27 @@ const FeaturedProducts = memo(() => {
       ],
       description: "· Escolha da cor e dos pingentes a combinar."
     }
+    // ...adicione mais produtos se quiser!
   ];
 
   const { ref, inView } = useInView({
     threshold: 0.1,
     triggerOnce: true,
   });
+
+  // RESPONSIVO: detecta mobile
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth <= 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  // Carrossel Mobile
+  const [current, setCurrent] = useState(0);
+  const prevSlide = () => setCurrent(prev => (prev === 0 ? products.length - 1 : prev - 1));
+  const nextSlide = () => setCurrent(prev => (prev === products.length - 1 ? 0 : prev + 1));
 
   return (
     <section
@@ -170,7 +181,6 @@ const FeaturedProducts = memo(() => {
         position: 'relative'
       }}
     >
-      {/* Linha divisória minimalista no topo */}
       <div style={{
         position: 'absolute',
         top: 0,
@@ -181,7 +191,6 @@ const FeaturedProducts = memo(() => {
         height: '4px',
         background: 'linear-gradient(90deg, transparent 0%, rgba(178, 130, 93, 0.3) 50%, transparent 100%)'
       }} />
-
       {/* ============================================ */}
       {/* ESTILOS CSS */}
       {/* ============================================ */}
@@ -489,12 +498,104 @@ const FeaturedProducts = memo(() => {
           }
         }
       `}</style>
+      <style>{`
+      @media (max-width: 768px) {
+            .dual-polaroid-wrapper, .dual-polaroid-wrapper-mirrored {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+        <style>
+        .dual-polaroid-wrapper-mirrored {
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+            gap: 121px;
+            position: relative;
+            justify-content: end;
+        }
+      @media (max-width: 768px) {
+        .polaroids-container, .polaroids-container-mirrored {
+            min-width: 85%;
+          }
+      }
+      @media (max-width: 768px) {
+        .polaroid {
+          position: absolute;      
+          transition: transform 0.3s ease;
+          background: white;
+          padding: 15px;
+          padding-bottom: 60px;
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15), 0 4px 8px rgba(0, 0, 0, 0.1);
+          width: 60% !important;
+          max-width: 200px !important;
+          margin: 0 !important;
+        }
+        .polaroids-container-mirrored {
+          position: relative;
+          min-width: 333px;
+          flex-shrink: 0;
+          margin: auto; !important;
+          margin-top: 90px;
+          min-height: 300px; !important;
+        }
+        .polaroid-back {
+          /* Polaroid de trás, levemente girada para esquerda */
+          transform: rotate(-8deg);   /* O principal responsável pela rotação */
+          z-index: 1;
+          top: 10px;
+          left: 0;
+          width: 280px;
+        }
+        .polaroid-front {
+          /* Polaroid da frente, levemente girada para direita */
+          transform: rotate(5deg);    /* O principal responsável pela rotação */
+          z-index: 2;
+          top: 80px;
+          left: 120px;
+          width: 320px;
+        }
+      }
+      @media (max-width: 768px) {
+        .mobile-carousel {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          overflow: hidden;
+          width: 100%;
+          position: relative;
+        }
+        .carousel-controls {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 18px;
+          margin-top: 18px;
+        }
+        .carousel-dot {
+          width: 10px;
+          height: 10px;
+          border-radius: 50%;
+          background: #B2825D;
+          opacity: .4;
+          border: none;
+        }
+        .carousel-dot.active {
+          opacity: 1;
+          background: #6B4423;
+        }
+        @media (min-width: 769px) {
+          .mobile-carousel,
+          .carousel-controls { display: none !important; }
+          .products-grid { display: grid; }
+        }
+        @media (max-width: 768px) {
+          .products-grid { display: none !important; }
+        }
 
-      {/* ============================================ */}
-      {/* CONTEÚDO */}
-      {/* ============================================ */}
+      `}</style>
       <div className="catalog-container">
-        {/* Header com Título */}
         <div className="catalog-header">
           <h2
             style={{
@@ -502,7 +603,7 @@ const FeaturedProducts = memo(() => {
               fontWeight: 900,
               color: '#6B4423',
               letterSpacing: '-7px',
-              textAlign: 'left',
+              textAlign: 'center',
               fontSize: '60px',
               lineHeight: '1.25'
             }}
@@ -510,22 +611,39 @@ const FeaturedProducts = memo(() => {
             DESTAQUES
           </h2>
         </div>
-
-        {/* Grid de Produtos */}
         <div className="products-grid">
-          {/* Produto 1 - Esquerda */}
           <DualPolaroidCard product={products[0]} />
-          
-          {/* Produto 2 - Direita (Espelhado) */}
           <DualPolaroidCardMirrored product={products[1]} />
         </div>
-
-        {/* Botão CTA */}
+        {/* MOBILE - CARROSSEL */}
+        <div className="mobile-carousel">
+          {isMobile && (
+            <>
+              {current % 2 === 0 ? (
+                <DualPolaroidCard product={products[current]} />
+              ) : (
+                <DualPolaroidCardMirrored product={products[current]} />
+              )}
+              <div className="carousel-controls">
+                <button aria-label="Anterior" onClick={prevSlide} style={{ fontSize: 24, background: 'none', border: 'none', color: '#B2825D' }}>&lt;</button>
+                {products.map((_, idx) => (
+                  <button
+                    key={idx}
+                    className={`carousel-dot${idx === current ? ' active' : ''}`}
+                    onClick={() => setCurrent(idx)}
+                    aria-label={`Ir para o produto ${idx + 1}`}
+                  />
+                ))}
+                <button aria-label="Próximo" onClick={nextSlide} style={{ fontSize: 24, background: 'none', border: 'none', color: '#B2825D' }}>&gt;</button>
+              </div>
+            </>
+          )}
+        </div>
         <div className="text-center mt-12">
           <Link 
-                        to="/colecoes"
-                        className="backdrop-blur-md bg-white/20 border border-amber-800/50 text-amber-800 px-8 py-3 rounded-full hover:bg-amber-800/90 hover:text-white transition-all duration-300 font-medium shadow-lg inline-block text-center"
-                      >
+            to="/colecoes"
+            className="backdrop-blur-md bg-white/20 border border-amber-800/50 text-amber-800 px-8 py-3 rounded-full hover:bg-amber-800/90 hover:text-white transition-all duration-300 font-medium shadow-lg inline-block text-center"
+          >
             Ver Todas as Peças
           </Link>
         </div>
@@ -535,5 +653,4 @@ const FeaturedProducts = memo(() => {
 });
 
 FeaturedProducts.displayName = 'FeaturedProducts';
-
 export default FeaturedProducts;

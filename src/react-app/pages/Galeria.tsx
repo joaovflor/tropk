@@ -1,7 +1,9 @@
-import { memo } from 'react';
+import { memo, useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { Link } from 'react-router-dom'; // <-- CORREÇÃO!
 import Header from '@/react-app/components/Header'; // ajuste caminho conforme seu projeto
+
+
 
 // ============================================
 // TIPOS
@@ -208,7 +210,19 @@ const Galeria = memo(() => {
     threshold: 0.1,
     triggerOnce: true,
   });
-
+  
+  const [isMobile, setIsMobile] = useState(false);
+  const [current, setCurrent] = useState(0);
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth <= 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+  const prevSlide = () =>
+  setCurrent((prev) => (prev === 0 ? Math.ceil(products.length / 2) - 1 : prev - 1));
+  const nextSlide = () =>
+  setCurrent((prev) => (prev === Math.ceil(products.length / 2) - 1 ? 0 : prev + 1));
   return (
     <>
       {/* Header SEMPRE fora da section */}
@@ -226,10 +240,215 @@ const Galeria = memo(() => {
       position: 'relative'
     }}
     >
+      <div className="catalog-container">
+        {/* Header com Título */}
+        <div className="catalog-header">
+          <h2
+            style={{
+              fontFamily: 'Aileron, sans-serif',
+              fontWeight: 900,
+              color: '#6B4423',
+              letterSpacing: '-5px',
+              textAlign: 'center',
+              fontSize: '60px',
+              lineHeight: '1.25'
+            }}
+          >
+            GALERIA
+          </h2>
+        </div>
+  
+        {/* Grid de Cards (um abaixo do outro, alternando os componentes) */}
+        <div className="products-grid">
+          <DualPolaroidCard product={products[0]} />
+          <DualPolaroidCardMirrored product={products[1]} />
+          <DualPolaroidCard product={products[2]} />
+          <DualPolaroidCardMirrored product={products[3]} />
+          <DualPolaroidCard product={products[4]} />
+          <DualPolaroidCardMirrored product={products[5]} />
+          <DualPolaroidCard product={products[6]} />
+          <DualPolaroidCardMirrored product={products[7]} />
+        </div>
+  
+      {isMobile ? (
+        <div className="mobile-carousel">
+          <>
+            <div className="polaroid-pair">
+              {[products[current * 2], products[current * 2 + 1]].map(
+                (product, i) =>
+                  product && (
+                    <div className="product-card" style={{ width: '50%', margin: 0 }} key={product.id}>
+                      <div className="dual-polaroid-wrapper">
+                        <div className="polaroids-container">
+                          <div className="polaroid polaroid-back" style={{ transform: 'rotate(-8deg)' }}>
+                            <div className="image-wrapper">
+                              <img
+                                src={product.images[0]}
+                                alt={`${product.name} - Vista 1`}
+                                loading="lazy"
+                              />
+                            </div>
+                          </div>
+                          <div className="polaroid polaroid-front" style={{ transform: 'rotate(7deg)' }}>
+                            <div className="image-wrapper">
+                              <img
+                                src={product.images[1]}
+                                alt={`${product.name} - Vista 2`}
+                                loading="lazy"
+                              />
+                            </div>
+                          </div>
+                        </div>
+                        <div className="product-info-external" style={{ textAlign: 'center' }}>
+                          <div className="product-category">{product.name}</div>
+                          <div className="product-note">{product.description}</div>
+                        </div>
+                      </div>
+                    </div>
+                  )
+              )}
+            </div>
+            <div className="carousel-controls">
+              <button aria-label="Anterior" onClick={prevSlide} style={{ fontSize: 24, background: 'none', border: 'none', color: '#B2825D' }}>&lt;</button>
+              {Array.from({ length: Math.ceil(products.length / 2) }).map((_, idx) => (
+                <button
+                  key={idx}
+                  className={`carousel-dot${idx === current ? ' active' : ''}`}
+                  onClick={() => setCurrent(idx)}
+                  aria-label={`Ir para o grupo ${idx + 1}`}
+                />
+              ))}
+              <button aria-label="Próximo" onClick={nextSlide} style={{ fontSize: 24, background: 'none', border: 'none', color: '#B2825D' }}>&gt;</button>
+            </div>
+          </>
+        </div>
+      ) : (
+        <div className="products-grid">
+          <DualPolaroidCard product={products[0]} />
+          <DualPolaroidCardMirrored product={products[1]} />
+          {/* ...etc, todos os pares */}
+        </div>
+      )}
+      {/* Botão "Ver Todas as Peças" */}
+        <div className="text-center mt-12">
+          <Link
+            to="/colecoes"
+            className="backdrop-blur-md bg-white/20 border border-amber-800/50 text-amber-800 px-8 py-3 rounded-full hover:bg-amber-800/90 hover:text-white transition-all duration-300 font-medium shadow-lg inline-block text-center"
+          >
+            Ver Todas as Peças
+          </Link>
+        </div>
+      </div>
+      
+
+
       {/* ============================================ */}
       {/* ESTILOS CSS */}
       {/* ============================================ */}
       <style>{`
+        @media (max-width: 768px) {
+          .dual-polaroid-wrapper, .dual-polaroid-wrapper-mirrored {
+            flex-direction: column;
+            align-items: center;
+            width: 100% !important;
+            justify-content: center;
+            position: relative;
+            gap: 0;
+            margin: 0 auto;
+          }
+          .polaroids-container, .polaroids-container-mirrored {
+              position: relative;
+              min-width: 400px !important;
+              min-height: 290px !important;
+              max-width: 197px;
+              margin: 16px auto !important;
+              display: block !important;
+              right: 24px; !important;
+          }
+          .polaroid {
+            background: white;
+            padding: 15px;
+            padding-bottom: 60px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2), 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 4px;
+            width: 80vw;
+            max-width: 240px;
+            margin: 0 auto;
+            position: absolute;
+            left: 0;
+            right: 0;
+            transition: transform 0.3s ease;
+          }
+          .polaroid-back,
+          .polaroid-back-mirrored {
+            transform: rotate(-8deg);
+            z-index: 1;
+            top: 28px;
+          }
+          .polaroid-front,
+          .polaroid-front-mirrored {
+            transform: rotate(5deg);
+            z-index: 2;
+            top: 65px;
+          }
+          .product-info-external, .product-info-external-mirrored {
+            max-width: 96vw !important;
+            margin-top: 155px !important;
+            text-align: center !important;
+            padding: 0 !important;
+            position: relative;
+            left: 0;
+            right: 0;
+          }
+          .product-category, .product-note {
+            text-align: center !important;
+          }
+        }
+        @media (max-width: 768px) {
+          .product-card {
+            transform: rotate(0deg); !important;
+            display: contents; !important;
+          }
+        }
+        @media (max-width: 768px) {
+          .mobile-carousel {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            width: 100%;
+            position: relative;
+          }
+          .carousel-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 18px;
+            margin-top: 18px;
+          }
+          .carousel-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #B2825D;
+            opacity: .4;
+            border: none;
+          }
+          .carousel-dot.active {
+            opacity: 1;
+            background: #6B4423;
+          }
+          @media (min-width: 769px) {
+            .mobile-carousel,
+            .carousel-controls { display: none !important; }
+            .products-grid { display: grid; }
+          }
+          @media (max-width: 768px) {
+            .products-grid { display: none !important; }
+          }
+        }
+
         /* Importar fontes Montserrat */
         @font-face {
           font-family: 'Montserrat';
@@ -534,46 +753,6 @@ const Galeria = memo(() => {
         }
       `}</style>
 
-      <div className="catalog-container">
-        {/* Header com Título */}
-        <div className="catalog-header">
-          <h2
-            style={{
-              fontFamily: 'Aileron, sans-serif',
-              fontWeight: 900,
-              color: '#6B4423',
-              letterSpacing: '-5px',
-              textAlign: 'center',
-              fontSize: '60px',
-              lineHeight: '1.25'
-            }}
-          >
-            GALERIA
-          </h2>
-        </div>
-
-        {/* Grid de Cards (um abaixo do outro, alternando os componentes) */}
-        <div className="products-grid">
-          <DualPolaroidCard product={products[0]} />
-          <DualPolaroidCardMirrored product={products[1]} />
-          <DualPolaroidCard product={products[2]} />
-          <DualPolaroidCardMirrored product={products[3]} />
-          <DualPolaroidCard product={products[4]} />
-          <DualPolaroidCardMirrored product={products[5]} />
-          <DualPolaroidCard product={products[6]} />
-          <DualPolaroidCardMirrored product={products[7]} />
-        </div>
-
-
-        <div className="text-center mt-12">
-          <Link
-            to="/colecoes"
-            className="backdrop-blur-md bg-white/20 border border-amber-800/50 text-amber-800 px-8 py-3 rounded-full hover:bg-amber-800/90 hover:text-white transition-all duration-300 font-medium shadow-lg inline-block text-center"
-          >
-            Ver Todas as Peças
-          </Link>
-        </div>
-      </div>
     </section>
     </>
   );

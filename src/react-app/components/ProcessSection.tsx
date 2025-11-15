@@ -1,39 +1,50 @@
+import { memo, useMemo, useCallback } from 'react';
 import { openWhatsApp, whatsappMessages } from '../utils/whatsapp';
 import { Link } from 'react-router-dom';
 
-export default function ProcessSection() {
-  const steps = [
-    {
-      id: 1,
-      icon: "🎨",
-      title: "DESIGN EXCLUSIVO",
-      description: "Cada peça é criada com design único, pensada especialmente para mulheres modernas que valorizam a exclusividade."
-    },
-    {
-      id: 2,
-      icon: "🧶",
-      title: "MATERIAIS PREMIUM",
-      description: "Utilizamos apenas fios de alta qualidade, 100% algodão, que garantem durabilidade e conforto."
-    },
-    {
-      id: 3,
-      icon: "✋",
-      title: "FEITO À MÃO",
-      description: "Todo o processo é artesanal, com técnicas tradicionais de crochê passadas de geração em geração."
-    },
-    {
-      id: 4,
-      icon: "💝",
-      title: "ENTREGA ESPECIAL",
-      description: "Suas peças chegam embaladas com carinho, prontas para serem usadas ou presenteadas."
-    }
-  ];
+const steps = [
+  {
+    id: 1,
+    icon: "🎨",
+    title: "DESIGN EXCLUSIVO",
+    description: "Cada peça é criada com design único, pensada especialmente para mulheres modernas que valorizam a exclusividade."
+  },
+  {
+    id: 2,
+    icon: "🧶",
+    title: "MATERIAIS PREMIUM",
+    description: "Utilizamos apenas fios de alta qualidade, 100% algodão, que garantem durabilidade e conforto."
+  },
+  {
+    id: 3,
+    icon: "✋",
+    title: "FEITO À MÃO",
+    description: "Todo o processo é artesanal, com técnicas tradicionais de crochê passadas de geração em geração."
+  },
+  {
+    id: 4,
+    icon: "💝",
+    title: "ENTREGA ESPECIAL",
+    description: "Suas peças chegam embaladas com carinho, prontas para serem usadas ou presenteadas."
+  }
+];
+
+function ProcessSection() {
+  // Memoize steps for stability
+  const memoSteps = useMemo(() => steps, []);
+  
+  // Memoize CTA handlers
+  const handleWhatsApp = useCallback(() => openWhatsApp(whatsappMessages.customOrder), []);
+
+  // Preload background for performance
+  // strongly recommend optimized webp in PROD
+  const backgroundURL = '/fundooutro-01.png';
 
   return (
-    <section 
+    <section
       className="py-16 relative"
       style={{
-        backgroundImage: 'url(/fundooutro-01.png)',
+        backgroundImage: `url(${backgroundURL})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
@@ -41,6 +52,9 @@ export default function ProcessSection() {
         padding: '40px 0px'
       }}
     >
+      {/* Preload bg */}
+      <img src={backgroundURL} alt="" style={{ display: 'none' }} loading="eager" />
+
       {/* Linha divisória minimalista no topo */}
       <div style={{
         position: 'absolute',
@@ -55,7 +69,7 @@ export default function ProcessSection() {
 
       <div className="container mx-auto px-7">
         <div className="text-center mb-12">
-          <h2 
+          <h2
             style={{
               fontFamily: 'Aileron, sans-serif',
               fontWeight: 900,
@@ -70,12 +84,12 @@ export default function ProcessSection() {
           >
             NOSSO <span style={{ fontFamily: 'Aileron, sans-serif', fontWeight: 200 }}>PROCESSO</span> ARTESANAL
           </h2>
-          <p 
-            style={{ 
-              fontFamily: 'Montserrat, sans-serif', 
-              fontWeight: 300, 
-              color: '#b88860ff' 
-            }} 
+          <p
+            style={{
+              fontFamily: 'Montserrat, sans-serif',
+              fontWeight: 300,
+              color: '#b88860ff'
+            }}
             className="text-lg leading-relaxed max-w-lg mx-auto"
           >
             Cada <span className="font-semibold">peça</span> passa por um cuidadoso processo de<span className="font-semibold"> criação</span>, desde o <span className="font-semibold">design </span>até a <span className="font-semibold">entrega</span>, garantindo <span className="font-semibold">qualidade</span> e<span className="font-semibold"> exclusividade.</span>
@@ -83,22 +97,19 @@ export default function ProcessSection() {
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-10">
-          {steps.map((step, index) => (
+          {memoSteps.map((step, index) => (
             <div key={step.id} className="text-center group">
               <div className="relative mb-6">
                 {/* Icon */}
-                <div className="w-20 h-20 backdrop-blur-lg bg-gradient-to-br from-amber-100/30 to-orange-100/30 border border-white/30 rounded-2xl flex items-center justify-center text-3xl group-hover:scale-105 transition-all duration-300 mx-auto shadow-lg">
+                <div className="w-20 h-20 bg-gradient-to-br from-amber-100/30 to-orange-100/30 border border-white/30 rounded-2xl flex items-center justify-center text-3xl group-hover:scale-105 transition-all duration-150 mx-auto shadow-md">
                   {step.icon}
                 </div>
-                
                 {/* Connecting Line */}
-                {index < steps.length - 1 && (
+                {index < memoSteps.length - 1 && (
                   <div className="hidden lg:block absolute top-10 left-full w-full h-0.5 bg-gradient-to-r from-amber-200 to-transparent -z-10" />
                 )}
               </div>
-              
-              {/* Título com estilo Aileron */}
-              <h3 
+              <h3
                 style={{
                   fontFamily: 'Aileron, sans-serif',
                   fontWeight: 900,
@@ -110,9 +121,7 @@ export default function ProcessSection() {
               >
                 {step.title}
               </h3>
-              
-              {/* Descrição com estilo Montserrat */}
-              <p 
+              <p
                 style={{
                   fontFamily: 'Montserrat, sans-serif',
                   fontWeight: 700,
@@ -127,41 +136,45 @@ export default function ProcessSection() {
         </div>
 
         {/* CTA */}
-        <div className="text-center mt-12 p-8 backdrop-blur-lg bg-gradient-to-br from-amber-50/30 to-orange-50/30 border border-white/30 rounded-2xl shadow-lg">
-          <h3 
+        <div className="backdrop-blur-sm text-center mt-12 p-8 bg-gradient-to-br from-amber-50/30 to-orange-50/30 border border-white/30 rounded-2xl shadow-md">
+          <h3
             style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
               fontFamily: 'Aileron, sans-serif',
               fontWeight: 900,
-              color: '#6B4423',
+              color: 'rgb(107, 68, 35)',
               letterSpacing: '-7px',
-              fontSize: '55px',
-              lineHeight: '1.25',
+              fontSize: '55px', // Melhor para mobile, ajustável via media-query/CSS-in-JS
+              lineHeight: 1.25,
               marginBottom: '1px'
             }}
+            className="sm:text-5xl text-2xl"
           >
+
             <p>VAMOS</p><p> ENCOMENDAR?</p>
           </h3>
-          <p 
-            style={{ 
-              fontFamily: 'Montserrat, sans-serif', 
-              fontWeight: 300, 
-              color: '#b88860ff' 
-            }} 
+          <p
+            style={{
+              fontFamily: 'Montserrat, sans-serif',
+              fontWeight: 300,
+              color: '#b88860ff'
+            }}
             className="text-lg leading-relaxed max-w-lg mx-auto mb-6"
           >
             Entre em contato e vamos <span className="font-semibold">criar</span> algo <span className="font-semibold">especial juntas!</span>
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button 
-              onClick={() => openWhatsApp(whatsappMessages.customOrder)}
-              className="backdrop-blur-md bg-amber-800/90 hover:bg-amber-900/90 text-white px-8 py-3 rounded-full border border-amber-700/50 shadow-lg transition-all duration-300 font-medium cursor-pointer"
+            <button
+              onClick={handleWhatsApp}
+              className="bg-amber-800/90 hover:bg-amber-900/90 text-white px-8 py-3 rounded-full border border-amber-700/50 shadow-md transition-all duration-150 font-medium cursor-pointer"
             >
               Fazer Pedido Personalizado
             </button>
-            
-            <Link 
+            <Link
               to="/colecoes"
-              className="backdrop-blur-md bg-white/20 border border-amber-800/50 text-amber-800 px-8 py-3 rounded-full hover:bg-amber-800/90 hover:text-white transition-all duration-300 font-medium shadow-lg inline-block text-center"
+              className="bg-white/20 border border-amber-800/50 text-amber-800 px-8 py-3 rounded-full hover:bg-amber-800/90 hover:text-white transition-all duration-150 font-medium shadow-md inline-block text-center"
             >
               Ver Coleção Pronta
             </Link>
@@ -171,3 +184,5 @@ export default function ProcessSection() {
     </section>
   );
 }
+
+export default memo(ProcessSection);
