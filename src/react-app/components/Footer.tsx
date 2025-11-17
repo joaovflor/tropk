@@ -43,7 +43,7 @@ function Footer() {
         background: 'linear-gradient(90deg, transparent 0%, rgba(178, 130, 93, 0.3) 50%, transparent 100%)'
       }} />
 
-      <div className="mx-auto px-4 py-16 shadow-xs border-b border-white/20">
+      <div className="mx-auto px-12 py-16 shadow-xs border-b border-white/20">
         <div className="grid md:grid-cols-4 gap-12">
           {/* Brand */}
           <div className="md:col-span-2 space-y-6">

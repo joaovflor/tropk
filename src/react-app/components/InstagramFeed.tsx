@@ -31,7 +31,7 @@ const InstagramFeed = memo(() => {
       {/* Widget do Elfsight com seu ID específico */}
       
       <div 
-        className="elfsight-app-acb4b122-a119-4640-8abc-aaf873505778 scale-[0.985] -mb-6" 
+        className="elfsight-app-acb4b122-a119-4640-8abc-aaf873505778 -mb-6 md:[transform:scale(1.1)] md:mt-[21px]" 
         data-elfsight-app-lazy
       ></div>
       

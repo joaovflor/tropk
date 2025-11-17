@@ -107,12 +107,14 @@ export default function Testimonials() {
           box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2), 0 4px 8px rgba(0, 0, 0, 0.1);
           border-radius: 4px;
           width: 100%;
+          height: 100%;
           max-width: 320px;
           margin: 0 auto;
         }
 
         .polaroid-image {
           width: 100%;
+          height: 100%;
           aspect-ratio: 3/4;
           object-fit: cover;
           display: block;
@@ -125,7 +127,7 @@ export default function Testimonials() {
           font-weight: 600;
           color: #6B4423;
           text-align: center;
-          margin-top: 15px;
+          margin-top: 5px;
           letter-spacing: 0.5px;
         }
 
@@ -135,7 +137,13 @@ export default function Testimonials() {
           font-weight: 300;
           color: #B2825D;
           text-align: center;
-          margin-top: 5px;
+          margin-top: 2px;
+        }
+
+        @media (max-width: 768px) {
+          .polaroid {
+            padding-bottom: 30px
+          }
         }
       `}</style>
 
