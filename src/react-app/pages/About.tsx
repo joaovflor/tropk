@@ -51,7 +51,7 @@ export default function About() {
             <div className="grid lg:grid-cols-2 gap-16 items-center mb-16">
               <div className="space-y-6">
                 <h3 style={{ fontFamily: 'Aileron, sans-serif', fontWeight: 900, color: '#6B4423'  }} className="text-4xl lg:text-4xl text-neutral-800 leading-tight">
-                MINHA HISTÓRIA COM O <span style={{ color:'#6B4423',fontWeight: 200 }} className="block text-amber-700 font-normal">CROCHÊ</span>
+                MINHA HISTÓRIA COM O <span style={{ color:'#6B4423', fontWeight: 200 }} className="text-amber-700 font-normal">CROCHÊ</span>
                 </h3>
                 <p 
                   style={{ 

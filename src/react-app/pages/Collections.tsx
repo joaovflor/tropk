@@ -239,12 +239,12 @@ export default function Collections() {
                 fontFamily: 'Aileron, sans-serif',
                 fontWeight: 900,
                 color: '#6B4423',
-                letterSpacing: '-7px',
                 fontSize: '60px',
                 lineHeight: '1.25',
                 wordSpacing: '10px',  
                 marginBottom: '24px'
               }}
+              className="sm:[letter-spacing:-7px] [letter-spacing:-3px]"
             >
               NOSSA <span style={{ fontFamily: 'Aileron, sans-serif', fontWeight: 200 }}>COLEÇÃO</span>
             </h1>
@@ -313,7 +313,7 @@ export default function Collections() {
                 >
                   {product.isNew && (
                     <div 
-                      className="absolute top-3 left-3 z-10"
+                      className="absolute top-4 left-4 z-10"
                       style={{
                         background: '#B2825D',
                         color: 'white',
@@ -329,7 +329,7 @@ export default function Collections() {
                   )}
                   {!product.isAvailable && (
                     <div 
-                      className="absolute top-3 left-3 z-10"
+                      className="absolute top-4 left-4 z-10"
                       style={{
                         background: '#6B4423',
                         color: 'white',
@@ -350,7 +350,7 @@ export default function Collections() {
                       toggleProductSelection(product.id, product);
                     }}
                     disabled={!product.isAvailable}
-                    className="absolute top-3 right-3 w-8 h-8 rounded-full flex items-center justify-center z-10 transition-all duration-300"
+                    className="absolute top-4 right-4 w-8 h-8 rounded-full flex items-center justify-center z-10 transition-all duration-300"
                     style={{
                       background: selectedProducts.includes(product.id) 
                         ? '#B2825D' 
@@ -406,7 +406,7 @@ export default function Collections() {
                       fontStyle: 'italic',
                       fontWeight: 700,
                       textTransform: 'uppercase',
-                      letterSpacing: '-1px',
+                      letterSpacing: '-0.5px',
                       marginBottom: '12px'
                     }}
                     className="group-hover:text-amber-700 transition-colors"
@@ -447,12 +447,11 @@ export default function Collections() {
                 fontFamily: 'Aileron, sans-serif',
                 fontWeight: 900,
                 color: '#6B4423',
-                letterSpacing: '-7px',
-                fontSize: '55px',
-                lineHeight: '90%',
+                lineHeight: '95%',
                 marginBottom: '16px',
                 wordSpacing: '10px'
               }}
+              className="sm:[letter-spacing:-7px] [letter-spacing:-2px] sm:[font-size:55px] [font-size:45px]"
             >
               NÃO <span style={{ fontFamily: 'Aileron, sans-serif', fontWeight: 200 }}>ENCONTROU</span><br />A PEÇA<br />PERFEITA?
             </h3>
@@ -469,7 +468,7 @@ export default function Collections() {
             </p>
             <button 
               onClick={() => openWhatsApp(whatsappMessages.customOrder)}
-              className="backdrop-blur-md bg-amber-800/90 hover:bg-amber-900/90 text-white px-8 py-3 rounded-full border border-amber-700/50 shadow-lg transition-all duration-300 font-medium cursor-pointer"
+              className="backdrop-blur-md bg-amber-800/90 hover:bg-amber-900/90 text-white px-4 sm:px-8 py-3 rounded-full border border-amber-700/50 shadow-lg transition-all duration-300 font-medium cursor-pointer"
             >
               Fazer Pedido Personalizado
             </button>

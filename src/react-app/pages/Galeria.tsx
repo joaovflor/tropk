@@ -249,11 +249,11 @@ const Galeria = memo(() => {
               fontFamily: 'Aileron, sans-serif',
               fontWeight: 900,
               color: '#6B4423',
-              letterSpacing: '-5px',
               textAlign: 'center',
               fontSize: '60px',
               lineHeight: '1.25'
             }}
+            className="sm:[letter-spacing:-5px] [letter-spacing:-3px]"
           >
             GALERIA
           </h2>

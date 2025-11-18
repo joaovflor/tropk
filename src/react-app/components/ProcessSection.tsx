@@ -74,13 +74,12 @@ function ProcessSection() {
               fontFamily: 'Aileron, sans-serif',
               fontWeight: 900,
               color: '#6B4423',
-              letterSpacing: '-6px',
               fontSize: '60px',
               lineHeight: '1.25',
               wordSpacing: '10px',
               marginBottom: '8px'
             }}
-            className="text-3xl lg:text-4xl font-light text-neutral-800 mb-4"
+            className="text-3xl lg:text-4xl font-light text-neutral-800 mb-4 sm:[letter-spacing:-6px] [letter-spacing:-3px]"
           >
             NOSSO <span style={{ fontFamily: 'Aileron, sans-serif', fontWeight: 200 }}>PROCESSO</span> ARTESANAL
           </h2>
@@ -145,12 +144,11 @@ function ProcessSection() {
               fontFamily: 'Aileron, sans-serif',
               fontWeight: 900,
               color: 'rgb(107, 68, 35)',
-              letterSpacing: '-7px',
               fontSize: '55px', // Melhor para mobile, ajustável via media-query/CSS-in-JS
               lineHeight: 1.25,
               marginBottom: '1px'
             }}
-            className="sm:text-5xl text-2xl"
+            className="sm:text-5xl text-2xl sm:[letter-spacing:-7px] [letter-spacing:-3px]"
           >
 
             <p>VAMOS</p><p> ENCOMENDAR?</p>

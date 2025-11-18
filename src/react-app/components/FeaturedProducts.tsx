@@ -491,6 +491,10 @@ const FeaturedProducts = memo(() => {
             letter-spacing: -3px;
           }
 
+          h2 {
+            letter-spacing: -3px !important;
+          }
+
           .product-price,
           .product-note {
             font-size: 18px;

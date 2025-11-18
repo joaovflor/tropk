@@ -7,7 +7,7 @@ export default function Header() {
 
   return (
     <header className="backdrop-blur-lg bg-white/70 shadow-sm border-b border-white/20 sticky top-0 z-50">
-      <div className="container mx-auto px-4 py-4">
+      <div className="container mx-auto px-4 py-2">
         <div className="flex items-center justify-between">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
